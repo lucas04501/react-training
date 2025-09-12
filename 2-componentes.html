@@ -16,7 +16,7 @@
     <script type="text/babel">
         function Button() {
             return (
-                <button>
+                <button className="px-3 py-2 bg-purple-500 rounded text-white">
                     Botão
                 </button>
             )
@@ -24,8 +24,15 @@
 
 
         function App() {
-            return <main className="p-3">Hello World</main>     
+            return (
+                <main className="flex gap-2 p-3">
+                    <Button />
+                    <Button />
+                </main>     
+                
+            )
             }
+        
         
 
             ReactDOM.createRoot(document.getElementById('root')).render(
