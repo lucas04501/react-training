@@ -14,9 +14,23 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <script type="text/babel">
-        function Button({ children }) {
+        const buttonVariants = {
+            default: 'bg-gray-500',
+            primary: 'bg-purple-500',
+
+        }
+        
+        
+        function Button({ variant = 'default', children, className, ...props }) {
             return (
-                <button className="px-3 py-2 bg-purple-500 rounded text-white">
+                <button
+                className={`px-3 py-2 rounded text-white 
+                    ${buttonVariants[variant]}
+                    ${className}
+                    `}        
+                    
+                    {...props}
+                >
                     {children}
                 </button>
             )
@@ -26,10 +40,11 @@
         function App() {
             return (
                 <main className="flex gap-2 p-3">
-                    <Button>
+                    <Button type="button" title="Meu Botão" className="mr-14"> 
                      Meu Botão
                     </Button>
-                    <Button>
+                   
+                    <Button variant="primary">
                      Outro Botão   
                     </Button>
                 </main>     
