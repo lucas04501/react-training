@@ -33,10 +33,25 @@
         }
 
 
+        function Alert2() {
+            function handleAlertClick(msg) {
+                alert(msg);
+            }
+            
+            return (
+                <button onClick={() => handleAlertClick('Uma mensagem de alerta!')}>
+                
+                   Mostrar Alerta c/ Parâmetro
+                </button>
+            )
+        }
+
+
         function App () {
             return (
                 <main class="p-3">
-                    ...
+                    <Alert1 />
+                    <Alert2 />
                 </main>
             );
         }
