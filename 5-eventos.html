@@ -8,12 +8,30 @@
 <body>
     <div id="root"></div>
 
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <script type="text/babel">
+        
+        function Alert1() {
+            function handleAlertClick(event) {
+                console.log(event);
+                alert('Uma mensagem de alerta!');
+            }
+            
+            
+            
+            
+            return (
+                <button type="button" onClick={handleAlertClick}>
+                    Mostrar Alerta
+                </button>
+
+            )
+        }
+
 
         function App () {
             return (
