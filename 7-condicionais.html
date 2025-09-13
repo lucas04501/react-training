@@ -18,6 +18,12 @@
 
             const [counter, setCounter] = React.useState(0);            
             
+          if (counter > 20) {
+            
+            return <p>Maior que 20</p>
+      }
+            
+            
             return (
               <>
                 <p>Contador: {counter}</p>
