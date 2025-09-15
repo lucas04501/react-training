@@ -149,7 +149,7 @@
         ],
       ]
 
-       const CalculatorContext = React.createContext()
+      const CalculatorContext = React.createContext()
 
     function CalculatorProvider({ children }) {
       const [history, setHistory] = React.useState([]);
@@ -168,44 +168,47 @@
     }
       
       function CalculatorDisplay({ operation, result }) {
-        return (
-          <div
-            className={`
+      return (
+        <div className={`
               flex flex-col gap-2 px-[1.375rem]
               cursor-default select-none
-            `}
+            `}>
+          <Text
+            as="div"
+            variant="muted"
+            className="flex items-center justify-end h-7"
           >
+            {result && operation}
+          </Text>
+          <div className={`
+              flex items-center justify-between h-9
+              `}>
             <Text
-              as="div"
-              className="flex items-center justify-end h-7"
               variant="muted"
             >
-                {result && operation}
+              =
             </Text>
-            <div className={`
-                flex items-center justify-between h-9
-            `}>
-              <Text variant="muted">=</Text>
-              <Text variant="blast">{result || operation}</Text>
-            </div>
+            <Text
+              variant="blast"
+            >
+              {result || operation}
+            </Text>
           </div>
-        );
-      }
+        </div>
+      )
+    }
 
 
       function Calculator() {
-        const [operation, setOperation] = React.useState("");
-        const [result, setResult] = React.useState("");
-        const { updateHistory } = React.useContext(CalculatorContext)
-        
-        function handleInputClick(input) {
-                if (input === 'C') {
-           const operationResult = eval(operation.replace(/,/g, '.'));
-          const parsedResult = operationResult.toString()?.replace(/\./g, ',')
-          setResult(parsedResult)
-          updateHistory(operation, parsedResult)
+      const [operation, setOperation] = React.useState('');
+      const [result, setResult] = React.useState('')
+      const { updateHistory } = React.useContext(CalculatorContext)
 
-          return;
+      function handleInputClick(input) {
+        if (input === 'C') {
+          setOperation("");
+          setResult("");
+          return
         }
 
         if (input === 'CE') {
@@ -218,13 +221,13 @@
           const operationResult = eval(operation.replace(/,/g, '.'));
           const parsedResult = operationResult.toString()?.replace(/\./g, ',')
           setResult(parsedResult)
+          updateHistory(operation, parsedResult)
+
           return;
         }
 
         if (result) {
-          setOperation(isNaN(input)
-           ? `${result}${input}`
-            : input)
+          setOperation(isNaN(input) ? `${result}${input}` : input)
           setResult('');
           return;
         }
@@ -236,60 +239,52 @@
 
         setOperation(`${operation}${input}`)
       }
-      
 
+      return (
+        <Card className={`
+          flex flex-col gap-[1.625rem] w-[22.25rem]
+          pt-14 px-8 pb-8
+          `}>
+          <CalculatorDisplay
+            operation={operation}
+            result={result}
+          />
 
-        return (
-            <Card className={`
-                flex flex-col gap-[1.625rem] w-[22.25rem]
-                pt-14 px-8 pb-8
-            `}
-            >
-                <CalculatorDisplay 
-                operation={operation} 
-                result={result} 
-                />
-            
-                
-                <div className="flex flex-col gap-3">
-                  {buttons.map((row, index) => (
-                    <div key={`row-${index}`}className="flex gap-3">
-                    {row.map(button => (
-                      <Button 
-                      key={button.input}
-                      className={button.className || "w-16 h-16"}
-                      variant={button.variant}
-                      onClick={() => handleInputClick(button.input)}
-                    >
-                      {button.input}
-                      
-                      </Button>
-                     
-                    ))}
-                      </div>
-                  ))}
+          <div className="flex flex-col gap-3">
+            {buttons.map((row, index) => (
+              <div key={`row-${index}`} className="flex gap-3">
+                {row.map(button => (
+                  <Button
+                    key={button.input}
+                    className={button.className || "w-16 h-16"}
+                    variant={button.variant}
+                    onClick={() => handleInputClick(button.input)}
+                  >
+                    {button.input}
+                  </Button>
+                ))}
+              </div>
 
-                </div>
-            </Card>
-        )
-      }
+            ))}
+          </div>
+        </Card>
+      )
+    }
 
+    function OperationHistory() {
+      const { history } = React.useContext(CalculatorContext)
 
-      function OperationHistory() {
-        const { history } = React.useContext(CalculatorContext)
+      return (
+        <Card className="w-full py-10 px-8">
+          <Text
+            as="h1"
+            variant="heading"
+            className="mb-4"
+          >
+            Histórico de Operações
+          </Text>
 
-        return (
-          <Card className="w-full py-10 px-8">
-            <Text
-                as="h1"
-                variant="heading"
-                className="mb-4"
-            >
-                Histórico de Operações
-            </Text>
-
-
-              {history.length > 0 ? (
+                    {history.length > 0 ? (
             <ul className="flex flex-col gap-3">
               {history.map((value, index) => (
                 <Text key={`item-${index}`} as="li">{value}</Text>
@@ -298,24 +293,25 @@
           ) : (
             <Text as="p" variant="muted">Nenhuma operação recente.</Text>
           )}
-          </Card>
-        )
-      }
+        </Card>
+      )
+    }
 
-
-      function App() {
-        return (
-          <main className={`
-            py-28 px-4 sm:px-10
-            flex flex-col sm:flex-row
-            items-center sm:items-stretch
-            gap-2
+    function App() {
+      return (
+        <main className={`
+          py-28 px-4 sm:px-10
+          flex flex-col sm:flex-row
+          items-center sm:items-stretch
+          gap-2
           `}>
+          <CalculatorProvider>
             <Calculator />
             <OperationHistory />
-          </main>
-        );
-      }
+          </CalculatorProvider>
+        </main>
+      )
+    }
 
       ReactDOM.createRoot(document.getElementById("root")).render(<App />);
     </script>
