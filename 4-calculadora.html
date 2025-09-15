@@ -201,7 +201,9 @@
         }
 
         if (result) {
-          setOperation(isNaN(input) ? `${result}${input}` : input)
+          setOperation(isNaN(input)
+           ? `${result}${input}`
+            : input)
           setResult('');
           return;
         }
@@ -211,7 +213,7 @@
           return;
         }
 
-        setOperation(`${input}`)
+        setOperation(`${operation}${input}`)
       }
       
 
