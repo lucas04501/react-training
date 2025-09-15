@@ -1,4 +1,4 @@
-<h1 align="center">my first project using a bit of React</h1>
+<h2 align="center">My first project using a bit of REACT</h2>
 
   <div>
     <h3 align="center">
